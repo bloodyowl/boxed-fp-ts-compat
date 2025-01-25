@@ -1,0 +1,10 @@
+{
+  "name": "boxed-fp-ts-compat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@swan-io/boxed": "^3.2.0",
+    "typescript": "^5.7.3"
+  }
+}
