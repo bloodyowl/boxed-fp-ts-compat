@@ -10,6 +10,11 @@ export const map =
   (t: Result<A, E>) =>
     t.map(f);
 
+export const mapLeft =
+  <A, E, F>(f: (a: E) => F) =>
+  (t: Result<A, E>) =>
+    t.mapError(f);
+
 export const flatMap =
   <A, E, F, B>(f: (a: A) => Result<B, F>) =>
   (t: Result<A, E>) =>

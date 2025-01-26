@@ -1,15 +1,22 @@
 import { Future, Option, Result } from "@swan-io/boxed";
-import { constVoid } from "./function.mts";
+import { constVoid } from "./function";
 
 export type TaskEither<E, A> = Future<Result<A, E>>;
 
 export const right = <A>(x: A) => Future.value(Result.Ok(x));
 export const left = <E>(x: E) => Future.value(Result.Error(x));
 
+export const fromEither = <A, E>(either: Result<A, E>) => Future.value(either);
+
 export const map =
   <A, E, B>(f: (a: A) => B) =>
   (t: Future<Result<A, E>>) =>
     t.mapOk(f);
+
+export const mapLeft =
+  <A, E, F>(f: (a: E) => F) =>
+  (t: Future<Result<A, E>>) =>
+    t.mapError(f);
 
 export const flatMap =
   <A, E, F, B>(f: (a: A) => Future<Result<B, F>>) =>
@@ -177,3 +184,25 @@ export const fromPredicate =
       Option.fromPredicate(t, matchesPredicate).toResult(fallback())
     );
   };
+
+export const filterOrElse =
+  <A, E>(predicate: (a: A) => boolean, fallback: (a: A) => E) =>
+  (t: Future<Result<A, E>>): Future<Result<A, E>> => {
+    return t.mapOkToResult((a) => {
+      return Option.fromPredicate(a, predicate).toResult(fallback(a));
+    });
+  };
+
+export const filterOrElseW =
+  <A, E, F>(predicate: (a: A) => boolean, fallback: (a: A) => F) =>
+  (t: Future<Result<A, E>>): Future<Result<A, E | F>> => {
+    return t.mapOkToResult((a) => {
+      return Option.fromPredicate(a, predicate).toResult(fallback(a));
+    });
+  };
+
+export const asSideEffect = <A, E, B>(
+  getFuture: (a: A) => Future<Result<B, E>>
+) => {
+  return (a: A) => getFuture(a).mapOk(() => a);
+};
