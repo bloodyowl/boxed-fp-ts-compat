@@ -3,14 +3,16 @@
 ### side effects
 
 ```ts
-pipe(a, taskEither.tap(x));
+pipe(a, taskEither.tap(f));
 ```
 
 into:
 
 ```ts
-a.flatMapOk(asSideEffect(x));
+a.flatMapOk(asSideEffect(f));
 ```
+
+**note:** it most likely means that `f` shouldn't return `TaskEither<E, void>` but rather `TaskEither<E, A>`.
 
 ## not replaced
 
@@ -48,32 +50,25 @@ Just use `===`.
 ```ts
 const eqBirthdate = { equals: (x: Date, y: Date) => dayjs(x).isSame(y, "day") };
 
-!option.elem(eqBirthdate)(
-  accountMembership.paymentMember.birthDate.value,
-  accountMembership.restrictedTo.birthDate
-);
+!option.elem(eqBirthdate)(expected, actual);
 ```
 
 into
 
 ```ts
-accountMembership.restrictedTo.birthDate
-  .map((date) =>
-    dayjs(x).isSame(accountMembership.paymentMember.birthDate.value, "day")
-  )
-  .getOr(false);
+actual.map((date) => dayjs(date).isSame(expected, "day")).getOr(false);
 ```
 
 and
 
 ```ts
-option.elem(string.Eq)(CompanyUBOType.HasCapital, companyUBO.type);
+option.elem(string.Eq)(expected, actual);
 ```
 
 into
 
 ```ts
-companyUBO.type === Option.Some(CompanyUBOType.HasCapital);
+actual === Option.Some(expected);
 ```
 
 ### array.match
