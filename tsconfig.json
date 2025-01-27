@@ -6,21 +6,17 @@
     "lib": ["ESNext"],
     "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "rootDir": ".",
-    "resolvePackageJsonImports": true,
-
-    "allowImportingTsExtensions": true,
+    "rootDir": "src",
 
     "allowJs": false,
     "strict": true,
     "isolatedModules": true,
-    "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "incremental": true,
     "esModuleInterop": true,
 
-    "declaration": false,
+    "declaration": true,
     "noEmitOnError": true,
     "pretty": true,
     "sourceMap": true,
