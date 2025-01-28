@@ -5,7 +5,7 @@
     "target": "ES2022",
     "lib": ["ESNext"],
     "moduleResolution": "NodeNext",
-    "outDir": "dist",
+    "outDir": "dist/",
     "rootDir": "src",
 
     "allowJs": false,
@@ -17,7 +17,7 @@
     "esModuleInterop": true,
 
     "declaration": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "pretty": true,
     "sourceMap": true,
 

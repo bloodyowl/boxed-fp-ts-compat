@@ -6,7 +6,8 @@
   "source": "index.ts",
   "types": "index.d.ts",
   "scripts": {
-    "build": "tsc && cp package.json README.md ./dist/"
+    "build": "yarn clean && mkdir dist && tsc && cp package.json README.md ./dist/",
+    "clean": "rm -fr dist"
   },
   "devDependencies": {
     "@swan-io/boxed": "^3.2.0",
