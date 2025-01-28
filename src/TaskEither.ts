@@ -3,8 +3,9 @@ import { constVoid } from "./function";
 
 export type TaskEither<E, A> = Future<Result<A, E>>;
 
-export const right = <A>(x: A) => Future.value(Result.Ok(x));
-export const left = <E>(x: E) => Future.value(Result.Error(x));
+export const right = <E = never, A = never>(x: A) => Future.value(Result.Ok(x));
+export const left = <E = never, A = never>(x: E) =>
+  Future.value(Result.Error(x));
 
 export const fromEither = <A, E>(either: Result<A, E>) => Future.value(either);
 
@@ -105,8 +106,8 @@ export const bind =
 export const bindW = bind;
 
 export const bindTo =
-  <A, E, K extends string>(t: Future<Result<A, E>>) =>
-  (key: K): Future<Result<{ [key in K]: A }, E>> =>
+  <A, E, K extends string>(key: K) =>
+  (t: Future<Result<A, E>>): Future<Result<{ [key in K]: A }, E>> =>
     t.mapOk((value) => ({ [key]: value } as { [key in K]: A }));
 
 export const chainEitherK =
@@ -116,9 +117,11 @@ export const chainEitherK =
 
 export const chainEitherKW = chainEitherK;
 
-export const fromOption = <A, E>(o: Option<A>, getError: () => E) => {
-  return Future.value(o.toResult(getError()));
-};
+export const fromOption =
+  <A, E>(getError: () => E) =>
+  (o: Option<A>) => {
+    return Future.value(o.toResult(getError()));
+  };
 
 export const sequenceArray = <A, E>(array: Array<Future<Result<A, E>>>) => {
   return Future.all(array).map(Result.all);

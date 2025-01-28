@@ -2,8 +2,8 @@ import { Option, Result } from "@swan-io/boxed";
 
 export type Either<E, A> = Result<A, E>;
 
-export const right = Result.Ok;
-export const left = Result.Error;
+export const right = <E = never, A = never>(a: A) => Result.Ok(a);
+export const left = <E = never, A = never>(e: E) => Result.Error(e);
 
 export const map =
   <A, E, B>(f: (a: A) => B) =>
