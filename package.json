@@ -6,7 +6,7 @@
   "source": "index.ts",
   "types": "index.d.ts",
   "scripts": {
-    "build": "yarn clean && mkdir dist && tsc && cp package.json README.md ./dist/",
+    "build": "yarn clean && mkdir dist && cp package.json README.md ./dist/ && tsc",
     "clean": "rm -fr dist"
   },
   "devDependencies": {
