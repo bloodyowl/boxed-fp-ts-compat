@@ -1,6 +1,6 @@
 {
   "name": "boxed-fp-ts-compat",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "index.js",
   "source": "index.ts",
