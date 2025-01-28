@@ -1,1 +1,3 @@
-export type Lazy<A> = () => A;
+export interface Lazy<A> {
+  (): A;
+}

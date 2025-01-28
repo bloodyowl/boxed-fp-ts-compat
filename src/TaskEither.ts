@@ -59,9 +59,9 @@ export const getOrElse =
   };
 
 export const orElse =
-  <A, E>(fallback: (e: E) => Future<Result<A, E>>) =>
-  (t: Future<Result<A, E>>): Future<Result<A, E>> => {
-    return t.flatMap((r) => {
+  <A, E, B, F>(fallback: (e: E) => Future<Result<B, F>>) =>
+  (t: Future<Result<A, E>>): Future<Result<A | B, E | F>> => {
+    return t.flatMap<Result<A | B, E | F>>((r) => {
       if (r.isOk()) {
         return Future.value(r);
       } else {
@@ -144,9 +144,6 @@ export const tryCatch = <A, E>(
   return Future.fromPromise(getPromise()).mapError(mapError);
 };
 
-/**
- * @deprecated Use `Future.allFromDict({a: future, b: future}).map(Result.allFromDict)
- */
 export const apS =
   <
     K extends string,
@@ -175,6 +172,8 @@ export const apS =
         [fieldName]: value,
       }));
   };
+
+export const apSW = apS;
 
 export const asUnit = <A, E>(t: TaskEither<E, A>) => {
   return t.mapOk(constVoid);
